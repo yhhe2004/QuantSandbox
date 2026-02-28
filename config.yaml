@@ -1,0 +1,68 @@
+# QuantSandbox Configuration
+
+# Data Configuration
+data:
+  stock_basic_path: "data/stock_basic.csv"
+  stock_data_dir: "data/by_stock/"
+  train_val_test_split: [0.8, 0.1, 0.1]
+  date_column: "交易日期"
+  open_column: "开盘价前复权"
+  close_column: "收盘价前复权"
+  target_column: "daily_return"
+  
+# Feature Engineering
+features:
+  technical_indicators: [
+    "MACD_DIF(基于前复权价格计算)",
+    "MACD_DEA",
+    "MACD",
+    "KDJ_K",
+    "KDJ_D",
+    "KDJ_J",
+    "RSI_6",
+    "RSI_12",
+    "RSI_24",
+    "BOLL_UPPER",
+    "BOLL_MID",
+    "BOLL_LOWER",
+    "CCI"
+  ]
+  rolling_window_sizes: [5, 10, 20, 60]
+  
+# Model Configuration
+models:
+  base:
+    random_state: 42
+    verbose: 1
+  sklearn:
+    linear_regression:
+      fit_intercept: True
+    random_forest:
+      n_estimators: 100
+      max_depth: 10
+      min_samples_split: 2
+    xgboost:
+      n_estimators: 100
+      max_depth: 6
+      learning_rate: 0.1
+  pytorch:
+    feedforward:
+      hidden_layers: [256, 128, 64]
+      dropout_rate: 0.2
+      learning_rate: 0.001
+      batch_size: 64
+      epochs: 50
+      early_stopping_patience: 10
+    
+# Backtesting Configuration
+backtesting:
+  initial_capital: 1000000.0
+  transaction_cost: 0.001  # 0.1% per trade
+  rebalance_frequency: "daily"
+  
+# Logging Configuration
+logging:
+  log_dir: "logs/"
+  log_level: "INFO"
+  save_models: True
+  model_save_dir: "saved_models/"
